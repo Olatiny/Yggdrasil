@@ -1,17 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     private enum GameState
     {
         MainMenu,
-        Cutscene,
+        IntroCutscene,
+        OutroCutscene,
         Paused,
         Playing,
         GameOver
     }
+
+    // Game State expressed as an enum
+    private GameState state;
 
     [Header("Enemy Objects")]
     [SerializeField] private GameObject[] spawnPoints;
@@ -21,30 +26,147 @@ public class GameManager : MonoBehaviour
 
     private GameObject[] activeEnemies;
 
-    [Header("Player Objects")]
+    [Header("Player References")]
     [SerializeField] private GameObject player;
+    [SerializeField] private int Level2XP = 15;
+    [SerializeField] private int Level3XP = 30;
 
-    private int playerLevel;
-    private int playerXP;
+    private int playerXP = 0;
+    private int playerHP = 3;
+
+    private enum PlayerStage
+    {
+        stage1,
+        stage2,
+        stage3
+    }
+
+    private PlayerStage stage;
 
     [Header("UI Objects")]
-    [SerializeField] private Canvas mainMenuCanvas;
-    [SerializeField] private Canvas playingCanvas;
-    [SerializeField] private Canvas pausedCanvas;
-    [SerializeField] private Canvas gameOverCanvas;
+    [SerializeField] private GameObject mainMenuCanvas;
+    [SerializeField] private GameObject playingCanvas;
+    [SerializeField] private GameObject pausedCanvas;
+    [SerializeField] private GameObject gameOverCanvas;
 
     [Header("Sound Manager")]
     [SerializeField] private GameObject soundManager;
 
-    // Start is called before the first frame update
-    void Start()
+    public static GameManager instance;
+
+    private void Awake()
     {
-        
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += (scene, mode) => OnSceneLoaded(scene, mode);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        
+        if (instance != this) return;
+
+        if (scene.name == "MainGame")
+        {
+            playerHP = 3;
+            playerXP = 0;
+
+            pausedCanvas.SetActive(false);
+            gameOverCanvas.SetActive(false);
+            playingCanvas.SetActive(true);
+            mainMenuCanvas.SetActive(false);
+
+            state = GameState.Playing;
+        }
+
+        if (scene.name == "MainMenu")
+        {
+            pausedCanvas.SetActive(false);
+            gameOverCanvas.SetActive(false);
+            playingCanvas.SetActive(false);
+            mainMenuCanvas.SetActive(false);
+            state = GameState.MainMenu;
+        }
+
+        if (scene.name == "IntroCutscene")
+        {
+            pausedCanvas.SetActive(false);
+            gameOverCanvas.SetActive(false);
+            playingCanvas.SetActive(false);
+            mainMenuCanvas.SetActive(false);
+            state = GameState.IntroCutscene;
+        }
+
+        if (scene.name == "OutroCutscene")
+        {
+            pausedCanvas.SetActive(false);
+            gameOverCanvas.SetActive(false);
+            playingCanvas.SetActive(false);
+            mainMenuCanvas.SetActive(false);
+            state = GameState.OutroCutscene;
+        }
+    }
+
+    public void addXP(int xp)
+    {
+        playerXP += xp;
+
+        if (playerXP > Level3XP)
+        {
+            stage = PlayerStage.stage3;
+        } else if (playerXP > Level2XP)
+        {
+            stage = PlayerStage.stage2;
+        } else
+        {
+            stage = PlayerStage.stage1;
+        }
+    }
+
+    public void addHP(int hp)
+    {
+        playerHP += hp;
+    }
+
+    public void loseHP(int hp)
+    {
+        playerHP -= hp;
+
+        if (playerHP <= 0)
+        {
+            state = GameState.GameOver;
+
+            pausedCanvas.SetActive(false);
+            gameOverCanvas.SetActive(true);
+            playingCanvas.SetActive(false);
+            mainMenuCanvas.SetActive(false);
+        }
+    }
+
+    private void Update()
+    {
+        if (state == GameState.Paused || state == GameState.GameOver || state == GameState.OutroCutscene 
+            || state == GameState.IntroCutscene || state == GameState.MainMenu)
+        {
+            return;
+        }
+
+        switch (stage)
+        {
+            case PlayerStage.stage1:
+                break;
+            case PlayerStage.stage2:
+                break;
+            case PlayerStage.stage3:
+                break;
+            default:
+                break;
+        }
     }
 }
