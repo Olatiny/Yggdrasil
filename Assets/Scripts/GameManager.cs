@@ -19,12 +19,12 @@ public class GameManager : MonoBehaviour
     private GameState state;
 
     [Header("Enemy Objects")]
-    [SerializeField] private GameObject[] spawnPoints;
+    [SerializeField] private List<GameObject> spawnPoints;
     [SerializeField] private GameObject smallEnemyPrefab;
     [SerializeField] private GameObject largeEnemyPrefab;
     [SerializeField] private GameObject nidhogg;
 
-    private GameObject[] activeEnemies;
+    private List<GameObject> activeEnemies;
 
     [Header("Player References")]
     [SerializeField] private GameObject player;
@@ -72,7 +72,13 @@ public class GameManager : MonoBehaviour
     {
         foreach (GameObject g in spawnPoints)
         {
-
+            if (g.CompareTag("littleSpawn"))
+            {
+                activeEnemies.Add(Instantiate(smallEnemyPrefab, g.transform.position, g.transform.rotation));
+            } else if (g.CompareTag("bigSpawn"))
+            {
+                activeEnemies.Add(Instantiate(largeEnemyPrefab, g.transform.position, g.transform.rotation));
+            }
         }
     }
 
@@ -161,12 +167,14 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        // Don't do gameplay junk when in these states
         if (state == GameState.Paused || state == GameState.GameOver || state == GameState.OutroCutscene 
             || state == GameState.IntroCutscene || state == GameState.MainMenu)
         {
             return;
         }
 
+        // Dividing up stages
         switch (stage)
         {
             case PlayerStage.stage1:
