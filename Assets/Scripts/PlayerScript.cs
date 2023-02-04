@@ -5,13 +5,19 @@ using UnityEngine.InputSystem;
 
 public class PlayerScript : MonoBehaviour
 {
+
     [SerializeField] private Rigidbody2D rigidBody;
     [SerializeField] private float moveSpeed;
     [SerializeField] private PlayerInputActions playerControls;
+    [SerializeField] private GameObject AttackLeft;
+    [SerializeField] private GameObject AttackRight;
+    [SerializeField] private GameObject AttackUp;
+    [SerializeField] private GameObject AttackDown;
+
     private InputAction playerMovement;
     private InputAction playerAttack;
-
     Vector2 moveDirection = Vector2.zero;
+    Vector2 lastMoveDirection = Vector2.zero;
 
     private void Awake()
     {
@@ -38,6 +44,8 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         moveDirection = playerMovement.ReadValue<Vector2>();
+
+        if (moveDirection != Vector2.zero) lastMoveDirection = moveDirection;
     }
 
     private void FixedUpdate()
@@ -48,5 +56,54 @@ public class PlayerScript : MonoBehaviour
     private void Attack(InputAction.CallbackContext context)
     {
         Debug.Log("Attacked");
+
+        float rotation = Vector2.Angle(transform.up, lastMoveDirection);
+
+        if (lastMoveDirection.x > 0)
+        {
+            rotation = -rotation;
+            Debug.Log(rotation);
+        }
+
+        //Debug.Log(rotation);
+
+        StartCoroutine(AttackRoutine(rotation));
+    }
+
+    IEnumerator AttackRoutine(float rotation)
+    {
+        if (rotation > 0 - 45 && rotation < 0 + 45)
+        {
+            AttackUp.SetActive(true);
+            yield return new WaitForSeconds(0.2f);
+            AttackUp.SetActive(false);
+            yield break;
+        }
+
+        if (rotation > 90 - 45 && rotation < 90 + 45)
+        {
+            AttackLeft.SetActive(true);
+            yield return new WaitForSeconds(0.2f);
+            AttackLeft.SetActive(false);
+            yield break;
+        }
+
+        if (rotation > 180 - 45 && rotation < 180 + 45)
+        {
+            AttackDown.SetActive(true);
+            yield return new WaitForSeconds(0.2f);
+            AttackDown.SetActive(false);
+            yield break;
+        }
+
+        if (rotation > -90 - 45 && rotation < -90 + 45)
+        {
+            AttackRight.SetActive(true);
+            yield return new WaitForSeconds(0.2f);
+            AttackRight.SetActive(false);
+            yield break;
+        }
+
+        yield break;
     }
 }
