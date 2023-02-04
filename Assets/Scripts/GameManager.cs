@@ -68,6 +68,14 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += (scene, mode) => OnSceneLoaded(scene, mode);
     }
 
+    private void initiateLevel()
+    {
+        foreach (GameObject g in spawnPoints)
+        {
+
+        }
+    }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (instance != this) return;
@@ -76,6 +84,8 @@ public class GameManager : MonoBehaviour
         {
             playerHP = 3;
             playerXP = 0;
+
+            initiateLevel();
 
             pausedCanvas.SetActive(false);
             gameOverCanvas.SetActive(false);
