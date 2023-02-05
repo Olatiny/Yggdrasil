@@ -21,7 +21,7 @@ public class LonelyThorn : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player" && GameManager.instance.stage == GameManager.PlayerStage.stage1)
         {
             manager.loseHP(1);
             //gameObject.GetComponent<PolygonCollider2D>().enabled = false;

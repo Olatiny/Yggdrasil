@@ -9,15 +9,16 @@ TagManager:
   - LittleObjects
   - Bush
   - Wall
+  - Bushman
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Bushman
   - Water
   - UI
-  - 
-  - 
+  - boundaries
+  - playerAttacks
   - 
   - 
   - 
