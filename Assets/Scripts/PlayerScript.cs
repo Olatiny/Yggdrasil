@@ -9,6 +9,7 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private Rigidbody2D rigidBody;
     [SerializeField] private float moveSpeed;
     [SerializeField] private PlayerInputActions playerControls;
+    [SerializeField] private Camera cam;
     [SerializeField] private GameObject AttackLeft;
     [SerializeField] private GameObject AttackRight;
     [SerializeField] private GameObject AttackUp;
@@ -43,6 +44,8 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        cam.transform.position = new Vector3(transform.position.x, transform.position.y, cam.transform.position.z);
+
         moveDirection = playerMovement.ReadValue<Vector2>();
 
         if (moveDirection != Vector2.zero) lastMoveDirection = moveDirection;
