@@ -42,12 +42,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 200
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -127,7 +127,343 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: bushman_0
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 1451
+        width: 561
+        height: 436
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7cedce9341c1a34ea1d333a4a94de34
+      internalID: 501228642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bushman_1
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 1012
+        width: 544
+        height: 406
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c20c515ad37855b418cbb91424345205
+      internalID: -1456286242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bushman_2
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 512
+        width: 507
+        height: 409
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 188cb977d6fef964b9fb4027746f774d
+      internalID: -1525415688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bushman_3
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 134
+        width: 432
+        height: 355
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2809fc417f73f394ab4888de7fc6f687
+      internalID: -1986938784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bushman_4
+      rect:
+        serializedVersion: 2
+        x: 533
+        y: 131
+        width: 429
+        height: 327
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a9783d4af461b24496b7e1350afb48e
+      internalID: 736859840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bushman_5
+      rect:
+        serializedVersion: 2
+        x: 614
+        y: 526
+        width: 575
+        height: 429
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 868898b225bb9844ea5f66306fc45700
+      internalID: 1330572602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bushman_6
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 1019
+        width: 578
+        height: 432
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5163efbbe6af344a9c14568c78cb2c4
+      internalID: 424326042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bushman_7
+      rect:
+        serializedVersion: 2
+        x: 631
+        y: 1482
+        width: 429
+        height: 405
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5cddb935603217f4a8c8509811773beb
+      internalID: -832720628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bushman_8
+      rect:
+        serializedVersion: 2
+        x: 1064
+        y: 1455
+        width: 533
+        height: 412
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b93376c908bacc24dba29046b674f250
+      internalID: 337058557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bushman_9
+      rect:
+        serializedVersion: 2
+        x: 1655
+        y: 1455
+        width: 439
+        height: 385
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc2e20146254d1a4d8aad1ae5a20a383
+      internalID: 76237974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bushman_10
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 1012
+        width: 533
+        height: 429
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bdf8df2615340884b96cf5fe1b149022
+      internalID: 1408109624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bushman_11
+      rect:
+        serializedVersion: 2
+        x: 1759
+        y: 1032
+        width: 571
+        height: 402
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef344181e0ca5b74881230a8cfd06e33
+      internalID: 698048700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bushman_12
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 529
+        width: 692
+        height: 429
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b739047019091243a11173b153abdbc
+      internalID: 1264455990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bushman_13
+      rect:
+        serializedVersion: 2
+        x: 1006
+        y: 114
+        width: 443
+        height: 344
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3acd39b2e054684fa06719f27347301
+      internalID: -28855560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bushman_14
+      rect:
+        serializedVersion: 2
+        x: 1445
+        y: 110
+        width: 426
+        height: 362
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0bd8ed1275551ea4bb807f807eb5b483
+      internalID: 759806631
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bushman_15
+      rect:
+        serializedVersion: 2
+        x: 1945
+        y: 644
+        width: 216
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 073aebf2edca6eb4e99b89308417a613
+      internalID: 423336480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -138,7 +474,23 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      bushman_9: -681596478
+      bushman_5: 142361816
+      bushman_15: 582979421
+      bushman_13: 1214072905
+      bushman_4: 736859840
+      bushman_0: 654902007
+      bushman_14: -1956940401
+      bushman_8: -1499874220
+      bushman_1: -263343833
+      bushman_3: 1606042992
+      bushman_12: 1817379635
+      bushman_6: -1949791723
+      bushman_2: -915813420
+      bushman_7: -532821538
+      bushman_10: 645688994
+      bushman_11: 1971737105
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
