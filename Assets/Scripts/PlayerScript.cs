@@ -62,7 +62,11 @@ public class PlayerScript : MonoBehaviour
     {
         cam.transform.position = new Vector3(transform.position.x, transform.position.y, cam.transform.position.z);
 
-        if (!GameManager.instance.CanMove()) return;
+        if (!GameManager.instance.CanMove())
+        {
+            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            return;
+        }
 
         moveDirection = playerMovement.ReadValue<Vector2>();
 
@@ -179,6 +183,8 @@ public class PlayerScript : MonoBehaviour
         if (!GameManager.instance.CanMove()) return;
 
         attacking = true;
+
+        GameManager.instance.soundManager.GetComponent<MusicScript>().SwipeSFX();
 
         switch (GameManager.instance.stage)
         {

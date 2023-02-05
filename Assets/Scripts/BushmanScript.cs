@@ -70,6 +70,7 @@ public class BushmanScript : MonoBehaviour
 
             } else if (canAttack && manager.stage == GameManager.PlayerStage.stage1)
             {
+                manager.soundManager.GetComponent<MusicScript>().BushmenShootSFX();
                 GetComponent<Animator>().Play("bushmanAttack");
                 Instantiate(thornClump, transform.position, Quaternion.Euler(0, 0, Random.Range(0, 72)));
                 StartCoroutine(Spawn());
@@ -135,6 +136,7 @@ public class BushmanScript : MonoBehaviour
 
             if (bushmanHP <= 0)
             {
+                manager.soundManager.GetComponent<MusicScript>().BushmenDieSFX();
                 GameManager.instance.addXP(3);
                 Destroy(gameObject);
             }

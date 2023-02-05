@@ -29,6 +29,7 @@ public class MusicScript : MonoBehaviour
 
         music.volume = 0.75f;
         kazoo.volume = 0.0f;
+        sfx.volume = .27f;
 
         music.clip = normalMusic;
         kazoo.clip = kazooMusic;
@@ -111,7 +112,7 @@ public class MusicScript : MonoBehaviour
 
     public void BushmenDieSFX()
     {
-        sfx.PlayOneShot(bushmenDie[0]);
+        sfx.PlayOneShot(bushmenDie[0], .5f);
     }
 }
 
