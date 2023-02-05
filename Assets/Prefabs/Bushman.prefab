@@ -119,7 +119,7 @@ MonoBehaviour:
   moveSpeed: 10
   range: 0.5
   movement: 40
-  eyesightMin: 8
+  eyesightMin: 20
   eyesightMax: 4
   thornClump: {fileID: 2735328860048021029, guid: 349cac1a872a496479c826aca55de686, type: 3}
 --- !u!50 &7375832883900980816
