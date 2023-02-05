@@ -43,7 +43,7 @@ public class BushmanScript : MonoBehaviour
                 transform.position = Vector2.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.fixedDeltaTime);
             } else if (canAttack)
             {
-                Instantiate(thornClump, transform.position, Quaternion.Euler(0, 0, Random.Range(0, 360)));
+                Instantiate(thornClump, transform.position, Quaternion.Euler(0, 0, Random.Range(0, 72)));
                 StartCoroutine(Spawn());
             }
         } else {
