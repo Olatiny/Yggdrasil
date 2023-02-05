@@ -49,6 +49,11 @@ public class PlayerScript : MonoBehaviour
         playerAttack.Disable();
     }
 
+    //private void Start()
+    //{
+    //    GetComponent<Animator>().Play("smallWalkRight");
+    //}
+
     // Update is called once per frame
     void Update()
     {
@@ -69,14 +74,18 @@ public class PlayerScript : MonoBehaviour
     
         if (rigidBody.velocity != Vector2.zero)
         {
-            if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(gameObject.layer).IsName("smallWalkingRight"))
-            {
-                GetComponent<Animator>().Play("smallWalkingRight");
-            }
-            else
-            {
-                GetComponent<Animator>().Play("smallStillRight");
-            }
+            GetComponent<Animator>().Play("smallWalkRight");
+            //if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(gameObject.layer).IsName("smallWalkingRight"))
+            //{
+            //    GetComponent<Animator>().Play("smallWalkingRight");
+            //}
+            //else
+            //{
+            //    GetComponent<Animator>().Play("smallStillRight");
+            //}
+        } else
+        {
+            //GetComponent<Animator>().Play("smallStillRight");
         }
     }
 
