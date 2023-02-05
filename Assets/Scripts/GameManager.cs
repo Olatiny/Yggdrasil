@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI healthText;
 
     [Header("Sound Manager")]
-    [SerializeField] private GameObject soundManager;
+    public GameObject soundManager;
 
     public static GameManager instance;
 
@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour
 
         foreach (Transform spawnPoint in allBigSpawns)
         {
-            Debug.Log("Big: " + spawnPoint.position);
+            //Debug.Log("Big: " + spawnPoint.position);
         }
 
         foreach (Transform spawnPoint in allLittleSpawns)
@@ -123,6 +123,7 @@ public class GameManager : MonoBehaviour
             cam = Camera.main;
             healthText.text = "Health: " + playerHP;
             cam.orthographicSize = 30;
+            Physics2D.IgnoreLayerCollision(0, 9);
 
             initiateLevel();
 
@@ -212,6 +213,8 @@ public class GameManager : MonoBehaviour
 
         player.GetComponent<PlayerScript>().TakeDamage();
 
+        soundManager.GetComponent<MusicScript>().DamageSFX();
+
         if (playerHP <= 0)
         {
             state = GameState.GameOver;
@@ -248,6 +251,8 @@ public class GameManager : MonoBehaviour
     {
         state = GameState.Paused;
 
+        soundManager.GetComponent<MusicScript>().PauseAdjust();
+
         pausedCanvas.SetActive(true);
         gameOverCanvas.SetActive(false);
         playingCanvas.SetActive(false);
@@ -259,11 +264,42 @@ public class GameManager : MonoBehaviour
     {
         state = GameState.Playing;
 
+        soundManager.GetComponent<MusicScript>().UnpauseAdjust();
+
         pausedCanvas.SetActive(false);
         gameOverCanvas.SetActive(false);
         playingCanvas.SetActive(true);
         mainMenuCanvas.SetActive(false);
         SettingsCanvas.SetActive(false);
+    }
+
+    public void EnableSettings()
+    {
+        pausedCanvas.SetActive(false);
+        gameOverCanvas.SetActive(false);
+        playingCanvas.SetActive(false);
+        SettingsCanvas.SetActive(true);
+        mainMenuCanvas.SetActive(false);
+    }
+
+    public void SaveSettings()
+    {
+        if (state == GameState.MainMenu)
+        {
+            pausedCanvas.SetActive(false);
+            gameOverCanvas.SetActive(false);
+            playingCanvas.SetActive(false);
+            SettingsCanvas.SetActive(false);
+            mainMenuCanvas.SetActive(true);
+        }
+        else
+        {
+            pausedCanvas.SetActive(true);
+            gameOverCanvas.SetActive(false);
+            playingCanvas.SetActive(false);
+            SettingsCanvas.SetActive(false);
+            mainMenuCanvas.SetActive(false);
+        }
     }
 
     public bool CanMove()

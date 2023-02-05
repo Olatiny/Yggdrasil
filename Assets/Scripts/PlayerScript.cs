@@ -62,7 +62,11 @@ public class PlayerScript : MonoBehaviour
     {
         cam.transform.position = new Vector3(transform.position.x, transform.position.y, cam.transform.position.z);
 
-        if (!GameManager.instance.CanMove()) return;
+        if (!GameManager.instance.CanMove())
+        {
+            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            return;
+        }
 
         moveDirection = playerMovement.ReadValue<Vector2>();
 
@@ -71,33 +75,33 @@ public class PlayerScript : MonoBehaviour
 
     public void TakeDamage()
     {
-        //if (moveDirection.y > 0) 
-        //{
-        //    GetComponent<Animator>().Play("smallDamageUp");
-        //}
-        //else if (moveDirection.x < 0)
-        //{
-        //    GetComponent<Animator>().Play("smallDamageLeft");
-        //}
-        //else if (moveDirection.x > 0)
-        //{
-        //    GetComponent<Animator>().Play("smallDamageRight");
-        //}
-        //else
-        //{
-        //    GetComponent<Animator>().Play("smallTakeDamage");
-        //}
-        StartCoroutine(TakeDamageRoutine());
+        if (moveDirection.y > 0)
+        {
+            GetComponent<Animator>().Play("smallDamageUp");
+        }
+        else if (moveDirection.x < 0)
+        {
+            GetComponent<Animator>().Play("smallDamageLeft");
+        }
+        else if (moveDirection.x > 0)
+        {
+            GetComponent<Animator>().Play("smallDamageRight");
+        }
+        else
+        {
+            GetComponent<Animator>().Play("smallTakeDamage");
+        }
+        //StartCoroutine(TakeDamageRoutine());
     }
 
-    IEnumerator TakeDamageRoutine()
-    {
-        GetComponent<SpriteRenderer>().color = new Color(1, 0.5f, 0.5f);
+    //IEnumerator TakeDamageRoutine()
+    //{
+    //    GetComponent<SpriteRenderer>().color = new Color(1, 0.5f, 0.5f);
 
-        yield return new WaitForSeconds(1);
+    //    yield return new WaitForSeconds(1);
 
-        GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
-    }
+    //    GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+    //}
 
     private void FixedUpdate()
     {
@@ -179,6 +183,8 @@ public class PlayerScript : MonoBehaviour
         if (!GameManager.instance.CanMove()) return;
 
         attacking = true;
+
+        GameManager.instance.soundManager.GetComponent<MusicScript>().SwipeSFX();
 
         switch (GameManager.instance.stage)
         {
