@@ -5,7 +5,6 @@ using UnityEngine;
 public class LonelyThorn : MonoBehaviour
 {
     private GameManager manager;
-    // Start is called before the first frame update
     private void Awake()
     {
         manager = GameManager.instance;
