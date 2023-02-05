@@ -108,12 +108,16 @@ public class GameManager : MonoBehaviour
             playerHP = 3;
             playerXP = 0;
 
+            BigSpawnPoints = GameObject.FindGameObjectWithTag("BigObjects");
+            LittleSpawnPoints = GameObject.FindGameObjectWithTag("LittleObjects");
+
             initiateLevel();
 
             pausedCanvas.SetActive(false);
             gameOverCanvas.SetActive(false);
             playingCanvas.SetActive(true);
             mainMenuCanvas.SetActive(false);
+            SettingsCanvas.SetActive(false);
 
             state = GameState.Playing;
         }
@@ -123,7 +127,8 @@ public class GameManager : MonoBehaviour
             pausedCanvas.SetActive(false);
             gameOverCanvas.SetActive(false);
             playingCanvas.SetActive(false);
-            mainMenuCanvas.SetActive(false);
+            mainMenuCanvas.SetActive(true);
+            SettingsCanvas.SetActive(false);
             state = GameState.MainMenu;
         }
 
@@ -133,6 +138,7 @@ public class GameManager : MonoBehaviour
             gameOverCanvas.SetActive(false);
             playingCanvas.SetActive(false);
             mainMenuCanvas.SetActive(false);
+            SettingsCanvas.SetActive(false);
             state = GameState.IntroCutscene;
         }
 
@@ -142,6 +148,7 @@ public class GameManager : MonoBehaviour
             gameOverCanvas.SetActive(false);
             playingCanvas.SetActive(false);
             mainMenuCanvas.SetActive(false);
+            SettingsCanvas.SetActive(false);
             state = GameState.OutroCutscene;
         }
     }
@@ -179,7 +186,28 @@ public class GameManager : MonoBehaviour
             gameOverCanvas.SetActive(true);
             playingCanvas.SetActive(false);
             mainMenuCanvas.SetActive(false);
+            SettingsCanvas.SetActive(false);
         }
+    }
+
+    public void StartIntroCutscene()
+    {
+        SceneManager.LoadScene("IntroCutscene");
+    }
+
+    public void StartGame()
+    {
+        SceneManager.LoadScene("ThomasTestScene");
+    }
+    
+    public void StartOutroCutscene()
+    {
+        SceneManager.LoadScene("OutroCutscene");
+    }
+
+    public void ReturnToMain()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void PauseGame()
@@ -189,6 +217,7 @@ public class GameManager : MonoBehaviour
         pausedCanvas.SetActive(true);
         gameOverCanvas.SetActive(false);
         playingCanvas.SetActive(false);
+        SettingsCanvas.SetActive(false);
         mainMenuCanvas.SetActive(false);
     }
 
@@ -200,6 +229,7 @@ public class GameManager : MonoBehaviour
         gameOverCanvas.SetActive(false);
         playingCanvas.SetActive(true);
         mainMenuCanvas.SetActive(false);
+        SettingsCanvas.SetActive(false);
     }
 
     private void Update()
