@@ -132,6 +132,11 @@ public class BushmanScript : MonoBehaviour
         {
             bushmanHP--;
 
+            if (manager.stage >= GameManager.PlayerStage.stage2)
+            {
+                bushmanHP -= 2;
+            }
+
             GetComponent<Animator>().Play("bushmanTakeDamage");
 
             if (bushmanHP <= 0)

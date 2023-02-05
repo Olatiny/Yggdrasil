@@ -10,6 +10,7 @@ TagManager:
   - Bush
   - Wall
   - Bushman
+  - DragonBody
   layers:
   - Default
   - TransparentFX

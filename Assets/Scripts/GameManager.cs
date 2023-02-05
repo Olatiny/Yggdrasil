@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject BigSpawnPoints;
     [SerializeField] private GameObject LittleSpawnPoints;
     [SerializeField] private GameObject smallEnemyPrefab;
-    [SerializeField] private GameObject largeEnemyPrefab;
+    //[SerializeField] private GameObject dragonRef;
     [SerializeField] private GameObject nidhogg;
 
     private List<GameObject> activeEnemies;
@@ -123,6 +123,8 @@ public class GameManager : MonoBehaviour
             cam = Camera.main;
             healthText.text = "Health: " + playerHP;
             cam.orthographicSize = 30;
+            nidhogg = GameObject.FindGameObjectWithTag("DragonBody");
+            nidhogg.SetActive(false);
             Physics2D.IgnoreLayerCollision(0, 9);
 
             initiateLevel();
@@ -188,10 +190,12 @@ public class GameManager : MonoBehaviour
             //{
             //    Physics2D.IgnoreCollision(o.GetComponent<CircleCollider2D>(), player.GetComponent<BoxCollider2D>());
             //}
+            playerHP = 30;
 
             player.GetComponent<BoxCollider2D>().offset += new Vector2(0, -2);
             player.GetComponent<BoxCollider2D>().size += new Vector2(0, 7);
             cam.orthographicSize += 40;
+            nidhogg.SetActive(true);
             //cam.fieldOfView += 12;
         }
         else if (playerXP < Level2XP)
