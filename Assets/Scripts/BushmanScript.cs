@@ -7,7 +7,14 @@ using Random = UnityEngine.Random;
 public class BushmanScript : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
-    private bool inRange = false;
+    private GameObject player;
+    [SerializeField] float range;
+    [SerializeField] float movement;
+    [SerializeField] float eyesightMin;
+    [SerializeField] float eyesightMax;
+    [SerializeField] GameObject thornClump;
+    private bool canAttack = true;
+    private Vector2 target;
 
     // Start is called before the first frame update
     void Start()
@@ -20,37 +27,44 @@ public class BushmanScript : MonoBehaviour
     {
         
     }
+    private void Awake()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        newDirection();
+    }
     private void FixedUpdate()
     {
-        float movement = moveSpeed * Time.deltaTime;
-        if (!inRange)
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (Vector2.Distance(transform.position, player.transform.position) < eyesightMax)
         {
-            int rng = Random.Range(0, 10);
-            if (rng > 6)
+            if (Vector2.Distance(transform.position, player.transform.position) >= eyesightMin)
             {
-                transform.position = RandomDirection(movement);
+                transform.position = Vector2.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.fixedDeltaTime);
+            } else if (canAttack)
+            {
+                Instantiate(thornClump, transform.position, transform.rotation);
+                StartCoroutine(Spawn());
             }
-            
+        } else {
+            transform.position = Vector2.MoveTowards(transform.position, target, moveSpeed * Time.fixedDeltaTime);
+            if (Vector2.Distance(transform.position, target) < range)
+            {
+                newDirection();
+            }
         }
+    }
+    private void newDirection()
+    {
+        target = new Vector2(Random.Range(-movement, movement), Random.Range(-movement, movement));
+    }
+    private void OnTriggerEnter2D(Collider2D collider) {
         
     }
-
-    private Vector3 RandomDirection(float movement)
+    IEnumerator Spawn()
     {
-        var x = Random.Range(-movement, movement);
-        var y = Random.Range(-movement, movement);
-        var z = Random.Range(-movement, movement);
-        return new Vector3(x, y, z);
-    }
-
-    private void OnCollisionStay2D(Collision2D collider) {
-        inRange = true;
-        float movement = moveSpeed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, collider.gameObject.transform.position, movement);
-    }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        inRange = false;
+        canAttack = false;
+        yield return new WaitForSeconds(1);
+        canAttack = true;
     }
 
 }

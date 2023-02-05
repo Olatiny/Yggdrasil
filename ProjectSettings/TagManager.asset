@@ -7,6 +7,7 @@ TagManager:
   - PlayerAttack
   - BigObjects
   - LittleObjects
+  - Bush
   layers:
   - Default
   - TransparentFX
