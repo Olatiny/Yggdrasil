@@ -15,8 +15,19 @@ public class GameManager : MonoBehaviour
         GameOver
     }
 
+    public enum PlayerStage
+    {
+        stage1,
+        stage2,
+        stage3
+    }
+
     // Game State expressed as an enum
-    private GameState state;
+    [Header("Game States & World Objects")]
+    [SerializeField] private GameState state;
+    public PlayerStage stage;
+
+    private Camera cam;
 
     [Header("Enemy Objects")]
     [SerializeField] private GameObject BigSpawnPoints;
@@ -34,15 +45,6 @@ public class GameManager : MonoBehaviour
 
     private int playerXP = 0;
     private int playerHP = 3;
-
-    private enum PlayerStage
-    {
-        stage1,
-        stage2,
-        stage3
-    }
-
-    private PlayerStage stage;
 
     [Header("UI Objects")]
     [SerializeField] private GameObject mainMenuCanvas;
@@ -108,8 +110,12 @@ public class GameManager : MonoBehaviour
             playerHP = 3;
             playerXP = 0;
 
+            stage = PlayerStage.stage1;
+
             BigSpawnPoints = GameObject.FindGameObjectWithTag("BigObjects");
             LittleSpawnPoints = GameObject.FindGameObjectWithTag("LittleObjects");
+            player = GameObject.FindGameObjectWithTag("Player");
+            cam = Camera.main;
 
             initiateLevel();
 
@@ -157,12 +163,15 @@ public class GameManager : MonoBehaviour
     {
         playerXP += xp;
 
-        if (playerXP > Level3XP)
+        if (playerXP >= Level3XP)
         {
             stage = PlayerStage.stage3;
-        } else if (playerXP > Level2XP)
+        } else if (playerXP >= Level2XP)
         {
             stage = PlayerStage.stage2;
+            player.GetComponent<Animator>().Play("BecomeBig");
+            cam.orthographicSize += 12;
+            //cam.fieldOfView += 12;
         } else
         {
             stage = PlayerStage.stage1;
@@ -230,6 +239,11 @@ public class GameManager : MonoBehaviour
         playingCanvas.SetActive(true);
         mainMenuCanvas.SetActive(false);
         SettingsCanvas.SetActive(false);
+    }
+
+    public bool CanMove()
+    {
+        return state == GameState.Playing;
     }
 
     private void Update()

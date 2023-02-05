@@ -10,10 +10,18 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private PlayerInputActions playerControls;
     [SerializeField] private Camera cam;
-    [SerializeField] private GameObject AttackLeft;
-    [SerializeField] private GameObject AttackRight;
-    [SerializeField] private GameObject AttackUp;
-    [SerializeField] private GameObject AttackDown;
+
+    [Header("Little Hitboxes")]
+    [SerializeField] private GameObject SmolAttackLeft;
+    [SerializeField] private GameObject SmolAttackRight;
+    [SerializeField] private GameObject SmolAttackUp;
+    [SerializeField] private GameObject SmolAttackDown;
+
+    [Header("Big Hitboxes")]
+    [SerializeField] private GameObject BigAttackLeft;
+    [SerializeField] private GameObject BigAttackRight;
+    [SerializeField] private GameObject BigAttackUp;
+    [SerializeField] private GameObject BigAttackDown;
 
     private InputAction playerMovement;
     private InputAction playerAttack;
@@ -46,6 +54,8 @@ public class PlayerScript : MonoBehaviour
     {
         cam.transform.position = new Vector3(transform.position.x, transform.position.y, cam.transform.position.z);
 
+        if (!GameManager.instance.CanMove()) return;
+
         moveDirection = playerMovement.ReadValue<Vector2>();
 
         if (moveDirection != Vector2.zero) lastMoveDirection = moveDirection;
@@ -53,13 +63,33 @@ public class PlayerScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rigidBody.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
+        if (!GameManager.instance.CanMove()) return;
+
+        rigidBody.velocity = new Vector2(moveDirection.x * moveSpeed * Time.deltaTime * ((int)GameManager.instance.stage + 1), moveDirection.y * moveSpeed * Time.deltaTime * ((int)GameManager.instance.stage + 1));
     }
 
     private void Attack(InputAction.CallbackContext context)
     {
-        Debug.Log("Attacked");
+        if (!GameManager.instance.CanMove()) return;
 
+        switch (GameManager.instance.stage)
+        {
+            case GameManager.PlayerStage.stage1:
+                StartCoroutine(AttackRoutineSmol());
+                break;
+            case GameManager.PlayerStage.stage2:
+                StartCoroutine(AttackRoutineBig());
+                break;
+            case GameManager.PlayerStage.stage3:
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    IEnumerator AttackRoutineSmol()
+    {
         float rotation = Vector2.Angle(transform.up, lastMoveDirection);
 
         if (lastMoveDirection.x > 0)
@@ -68,42 +98,80 @@ public class PlayerScript : MonoBehaviour
             Debug.Log(rotation);
         }
 
-        //Debug.Log(rotation);
+        if (rotation > 0 - 45 && rotation < 0 + 45)
+        {
+            SmolAttackUp.SetActive(true);
+            yield return new WaitForSeconds(0.2f);
+            SmolAttackUp.SetActive(false);
+            //yield break;
+        }
 
-        StartCoroutine(AttackRoutine(rotation));
+        if (rotation > 90 - 45 && rotation < 90 + 45)
+        {
+            SmolAttackLeft.SetActive(true);
+            yield return new WaitForSeconds(0.2f);
+            SmolAttackLeft.SetActive(false);
+            //yield break;
+        }
+
+        if (rotation > 180 - 45 && rotation < 180 + 45)
+        {
+            SmolAttackDown.SetActive(true);
+            yield return new WaitForSeconds(0.2f);
+            SmolAttackDown.SetActive(false);
+            //yield break;
+        }
+
+        if (rotation > 270 - 45 && rotation < 270 + 45)
+        {
+            SmolAttackRight.SetActive(true);
+            yield return new WaitForSeconds(0.2f);
+            SmolAttackRight.SetActive(false);
+            //yield break;
+        }
+
+        yield break;
     }
 
-    IEnumerator AttackRoutine(float rotation)
+    IEnumerator AttackRoutineBig()
     {
-        if (rotation >= 0 - 45 && rotation <= 0 + 45)
+        float rotation = Vector2.Angle(transform.up, lastMoveDirection);
+
+        if (lastMoveDirection.x > 0)
         {
-            AttackUp.SetActive(true);
+            rotation = 360 - rotation;
+            Debug.Log(rotation);
+        }
+
+        if (rotation > 0 - 45 && rotation < 0 + 45)
+        {
+            BigAttackUp.SetActive(true);
             yield return new WaitForSeconds(0.2f);
-            AttackUp.SetActive(false);
+            BigAttackUp.SetActive(false);
             //yield break;
         }
 
-        if (rotation >= 90 - 45 && rotation <= 90 + 45)
+        if (rotation > 90 - 45 && rotation < 90 + 45)
         {
-            AttackLeft.SetActive(true);
+            BigAttackLeft.SetActive(true);
             yield return new WaitForSeconds(0.2f);
-            AttackLeft.SetActive(false);
+            BigAttackLeft.SetActive(false);
             //yield break;
         }
 
-        if (rotation >= 180 - 45 && rotation <= 180 + 45)
+        if (rotation > 180 - 45 && rotation < 180 + 45)
         {
-            AttackDown.SetActive(true);
+            BigAttackDown.SetActive(true);
             yield return new WaitForSeconds(0.2f);
-            AttackDown.SetActive(false);
+            BigAttackDown.SetActive(false);
             //yield break;
         }
 
-        if (rotation >= 270 - 45 && rotation <= 270 + 45)
+        if (rotation > 270 - 45 && rotation < 270 + 45)
         {
-            AttackRight.SetActive(true);
+            BigAttackRight.SetActive(true);
             yield return new WaitForSeconds(0.2f);
-            AttackRight.SetActive(false);
+            BigAttackRight.SetActive(false);
             //yield break;
         }
 
