@@ -19,7 +19,8 @@ public class GameManager : MonoBehaviour
     private GameState state;
 
     [Header("Enemy Objects")]
-    [SerializeField] private List<GameObject> spawnPoints;
+    [SerializeField] private GameObject BigSpawnPoints;
+    [SerializeField] private GameObject LittleSpawnPoints;
     [SerializeField] private GameObject smallEnemyPrefab;
     [SerializeField] private GameObject largeEnemyPrefab;
     [SerializeField] private GameObject nidhogg;
@@ -48,6 +49,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject playingCanvas;
     [SerializeField] private GameObject pausedCanvas;
     [SerializeField] private GameObject gameOverCanvas;
+    [SerializeField] private GameObject SettingsCanvas;
 
     [Header("Sound Manager")]
     [SerializeField] private GameObject soundManager;
@@ -70,23 +72,38 @@ public class GameManager : MonoBehaviour
 
     private void initiateLevel()
     {
-        foreach (GameObject g in spawnPoints)
+        Debug.Log("instantiating level");
+
+        Transform[] allBigSpawns = BigSpawnPoints.GetComponentsInChildren<Transform>();
+        Transform[] allLittleSpawns = LittleSpawnPoints.GetComponentsInChildren<Transform>();
+
+        foreach (Transform spawnPoint in allBigSpawns)
         {
-            if (g.CompareTag("littleSpawn"))
-            {
-                activeEnemies.Add(Instantiate(smallEnemyPrefab, g.transform.position, g.transform.rotation));
-            } else if (g.CompareTag("bigSpawn"))
-            {
-                activeEnemies.Add(Instantiate(largeEnemyPrefab, g.transform.position, g.transform.rotation));
-            }
+            Debug.Log("Big: " + spawnPoint.position);
         }
+
+        foreach (Transform spawnPoint in allLittleSpawns)
+        {
+            Debug.Log("Small: " + spawnPoint.position);
+        }
+
+        //foreach (GameObject g in spawnPoints)
+        //{
+        //    if (g.CompareTag("littleSpawn"))
+        //    {
+        //        activeEnemies.Add(Instantiate(smallEnemyPrefab, g.transform.position, g.transform.rotation));
+        //    } else if (g.CompareTag("bigSpawn"))
+        //    {
+        //        activeEnemies.Add(Instantiate(largeEnemyPrefab, g.transform.position, g.transform.rotation));
+        //    }
+        //}
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (instance != this) return;
 
-        if (scene.name == "MainGame")
+        if (scene.name == "ThomasTestScene")
         {
             playerHP = 3;
             playerXP = 0;
@@ -163,6 +180,26 @@ public class GameManager : MonoBehaviour
             playingCanvas.SetActive(false);
             mainMenuCanvas.SetActive(false);
         }
+    }
+
+    public void PauseGame()
+    {
+        state = GameState.Paused;
+
+        pausedCanvas.SetActive(true);
+        gameOverCanvas.SetActive(false);
+        playingCanvas.SetActive(false);
+        mainMenuCanvas.SetActive(false);
+    }
+
+    public void ResumeGame()
+    {
+        state = GameState.Playing;
+
+        pausedCanvas.SetActive(false);
+        gameOverCanvas.SetActive(false);
+        playingCanvas.SetActive(true);
+        mainMenuCanvas.SetActive(false);
     }
 
     private void Update()
