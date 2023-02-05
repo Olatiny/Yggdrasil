@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -44,7 +45,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int Level3XP = 30;
 
     private int playerXP = 0;
-    private int playerHP = 3;
+    private int playerHP = 30;
 
     [Header("UI Objects")]
     [SerializeField] private GameObject mainMenuCanvas;
@@ -52,6 +53,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject pausedCanvas;
     [SerializeField] private GameObject gameOverCanvas;
     [SerializeField] private GameObject SettingsCanvas;
+    [SerializeField] private TextMeshProUGUI healthText;
 
     [Header("Sound Manager")]
     [SerializeField] private GameObject soundManager;
@@ -86,7 +88,8 @@ public class GameManager : MonoBehaviour
 
         foreach (Transform spawnPoint in allLittleSpawns)
         {
-            Debug.Log("Small: " + spawnPoint.position);
+            //Debug.Log("Small: " + spawnPoint.position);
+            Instantiate(smallEnemyPrefab, spawnPoint.position, spawnPoint.rotation);
         }
 
         //foreach (GameObject g in spawnPoints)
@@ -107,7 +110,7 @@ public class GameManager : MonoBehaviour
 
         if (scene.name == "ThomasTestScene" || scene.name == "HaleyTest")
         {
-            playerHP = 3;
+            playerHP = 30;
             playerXP = 0;
 
             stage = PlayerStage.stage1;
@@ -116,6 +119,7 @@ public class GameManager : MonoBehaviour
             LittleSpawnPoints = GameObject.FindGameObjectWithTag("LittleObjects");
             player = GameObject.FindGameObjectWithTag("Player");
             cam = Camera.main;
+            healthText.text = "Health: " + playerHP;
 
             initiateLevel();
 
@@ -181,11 +185,13 @@ public class GameManager : MonoBehaviour
     public void addHP(int hp)
     {
         playerHP += hp;
+        healthText.text = "Health: " + playerHP;
     }
 
     public void loseHP(int hp)
     {
         playerHP -= hp;
+        healthText.text = "Health: " + playerHP;
 
         if (playerHP <= 0)
         {

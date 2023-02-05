@@ -3860,9 +3860,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7adbd69208e8bde4b98a01869f226de6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
+  stage: 0
   BigSpawnPoints: {fileID: 0}
   LittleSpawnPoints: {fileID: 0}
-  smallEnemyPrefab: {fileID: 0}
+  smallEnemyPrefab: {fileID: 7375832883900980819, guid: 5d78f8e729ea0b646a523091a7d6d4c5, type: 3}
   largeEnemyPrefab: {fileID: 0}
   nidhogg: {fileID: 0}
   player: {fileID: 0}
@@ -3873,6 +3875,7 @@ MonoBehaviour:
   pausedCanvas: {fileID: 4879973694795315800}
   gameOverCanvas: {fileID: 4879973693252124139}
   SettingsCanvas: {fileID: 4879973695200917953}
+  healthText: {fileID: 4879973694780759421}
   soundManager: {fileID: 0}
 --- !u!1 &4879973695175994410
 GameObject:

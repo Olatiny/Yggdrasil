@@ -24,6 +24,9 @@ public class LonelyThorn : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             manager.loseHP(1);
+            //gameObject.GetComponent<PolygonCollider2D>().enabled = false;
+            //gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            //gameObject.GetComponent<Rigidbody2D>().enabled = false;
         }
     }
 }
