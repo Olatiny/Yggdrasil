@@ -15,7 +15,7 @@ public class BushmanScript : MonoBehaviour
     [SerializeField] GameObject thornClump;
     private bool canAttack = true;
     private Vector2 target;
-
+    private GameManager manager;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +29,7 @@ public class BushmanScript : MonoBehaviour
     }
     private void Awake()
     {
+        manager = GameManager.instance;
         player = GameObject.FindGameObjectWithTag("Player");
         newDirection();
     }
@@ -42,7 +43,7 @@ public class BushmanScript : MonoBehaviour
                 transform.position = Vector2.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.fixedDeltaTime);
             } else if (canAttack)
             {
-                Instantiate(thornClump, transform.position, transform.rotation);
+                Instantiate(thornClump, transform.position, Quaternion.Euler(0, 0, Random.Range(0, 72)));
                 StartCoroutine(Spawn());
             }
         } else {
@@ -57,8 +58,11 @@ public class BushmanScript : MonoBehaviour
     {
         target = new Vector2(Random.Range(-movement, movement), Random.Range(-movement, movement));
     }
-    private void OnTriggerEnter2D(Collider2D collider) {
-        
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.gameObject.tag == "Player")
+        {
+            manager.loseHP(1);
+        }
     }
     IEnumerator Spawn()
     {

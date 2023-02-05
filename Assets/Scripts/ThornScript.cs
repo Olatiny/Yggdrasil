@@ -30,11 +30,4 @@ public class ThornScript : MonoBehaviour
             thorn.position += new Vector3((thorn.position.x - transform.position.x), (thorn.position.y - transform.position.y), transform.position.z).normalized * moveSpeed * Time.fixedDeltaTime;
         }
     }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            manager.loseHP(1);
-        }
-    }
 }
