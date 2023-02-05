@@ -18,6 +18,7 @@ public class BushmanScript : MonoBehaviour
     private GameManager manager;
     private float bushmanHP = 3;
     private bool pickNewDirection = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,19 +40,63 @@ public class BushmanScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        if (!manager.CanMove()) return;
+
+        player = GameObject.FindGameObjectWithTag("Player");   
         if (Vector2.Distance(transform.position, player.transform.position) < eyesightMax)
         {
             if (Vector2.Distance(transform.position, player.transform.position) >= eyesightMin)
             {
+                Vector2 oldPos = transform.position;
                 transform.position = Vector2.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.fixedDeltaTime);
-            } else if (canAttack)
+                Vector2 dir = (Vector2)transform.position - oldPos;
+                
+                if (dir.x > 0 && Math.Abs(dir.x) > Math.Abs(dir.y))
+                {
+                    GetComponent<Animator>().Play("bushmanWalkRight");
+                }
+                else if (dir.x < 0 && Math.Abs(dir.x) > Math.Abs(dir.y))
+                {
+                    GetComponent<Animator>().Play("bushmanWalkLeft");
+                }
+                else if (dir.y > 0)
+                {
+                    GetComponent<Animator>().Play("bushmanWalkUp");
+                }
+                else
+                {
+                    GetComponent<Animator>().Play("bushmanWalkDown");
+                }
+
+            } else if (canAttack && manager.stage == GameManager.PlayerStage.stage1)
             {
+                manager.soundManager.GetComponent<MusicScript>().BushmenShootSFX();
+                GetComponent<Animator>().Play("bushmanAttack");
                 Instantiate(thornClump, transform.position, Quaternion.Euler(0, 0, Random.Range(0, 72)));
                 StartCoroutine(Spawn());
-            }
+            } 
         } else {
+            Vector2 oldPos = transform.position;
             transform.position = Vector2.MoveTowards(transform.position, target, moveSpeed * Time.fixedDeltaTime);
+            Vector2 dir = (Vector2)transform.position - oldPos;
+
+            if (dir.x > 0 && Math.Abs(dir.x) > Math.Abs(dir.y))
+            {
+                GetComponent<Animator>().Play("bushmanWalkRight");
+            }
+            else if (dir.x < 0 && Math.Abs(dir.x) > Math.Abs(dir.y))
+            {
+                GetComponent<Animator>().Play("bushmanWalkLeft");
+            }
+            else if (dir.y > 0)
+            {
+                GetComponent<Animator>().Play("bushmanWalkUp");
+            }
+            else
+            {
+                GetComponent<Animator>().Play("bushmanWalkDown");
+            }
+
             if (pickNewDirection/*Vector2.Distance(transform.position, target) < range*/)
             {
                 newDirection();
@@ -66,7 +111,7 @@ public class BushmanScript : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && manager.stage == GameManager.PlayerStage.stage1)
         {
             manager.loseHP(1);
         }
@@ -87,9 +132,12 @@ public class BushmanScript : MonoBehaviour
         {
             bushmanHP--;
 
+            GetComponent<Animator>().Play("bushmanTakeDamage");
+
             if (bushmanHP <= 0)
             {
-                GameManager.instance.addXP(1);
+                manager.soundManager.GetComponent<MusicScript>().BushmenDieSFX();
+                GameManager.instance.addXP(3);
                 Destroy(gameObject);
             }
         }
@@ -102,6 +150,8 @@ public class BushmanScript : MonoBehaviour
         yield return new WaitForSeconds(2);
 
         target = transform.position;
+
+        GetComponent<Animator>().Play("bushmanStillDown");
 
         yield return new WaitForSeconds(1);
 

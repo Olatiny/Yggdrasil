@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI healthText;
 
     [Header("Sound Manager")]
-    [SerializeField] private GameObject soundManager;
+    public GameObject soundManager;
 
     public static GameManager instance;
 
@@ -83,12 +83,14 @@ public class GameManager : MonoBehaviour
 
         foreach (Transform spawnPoint in allBigSpawns)
         {
-            Debug.Log("Big: " + spawnPoint.position);
+            //Debug.Log("Big: " + spawnPoint.position);
         }
 
         foreach (Transform spawnPoint in allLittleSpawns)
         {
             //Debug.Log("Small: " + spawnPoint.position);
+            if (spawnPoint.position.x == 0 && spawnPoint.position.y == 0) continue;
+
             Instantiate(smallEnemyPrefab, spawnPoint.position, spawnPoint.rotation);
         }
 
@@ -120,6 +122,8 @@ public class GameManager : MonoBehaviour
             player = GameObject.FindGameObjectWithTag("Player");
             cam = Camera.main;
             healthText.text = "Health: " + playerHP;
+            cam.orthographicSize = 30;
+            Physics2D.IgnoreLayerCollision(0, 9);
 
             initiateLevel();
 
@@ -167,16 +171,30 @@ public class GameManager : MonoBehaviour
     {
         playerXP += xp;
 
-        if (playerXP >= Level3XP)
-        {
-            //stage = PlayerStage.stage3;
-        } else if (playerXP >= Level2XP)
+        //if (playerXP >= Level3XP)
+        //{
+        //    //stage = PlayerStage.stage3;
+        //}
+        if (playerXP >= Level2XP && stage != PlayerStage.stage3)
         {
             stage = PlayerStage.stage3;
             player.GetComponent<Animator>().Play("BecomeBigger");
-            cam.orthographicSize += 100;
+
+            Physics2D.IgnoreLayerCollision(0, 3);
+
+            //GameObject[] objs = GameObject.FindGameObjectsWithTag("Bushman");
+
+            //foreach (GameObject o in objs)
+            //{
+            //    Physics2D.IgnoreCollision(o.GetComponent<CircleCollider2D>(), player.GetComponent<BoxCollider2D>());
+            //}
+
+            player.GetComponent<BoxCollider2D>().offset += new Vector2(0, -2);
+            player.GetComponent<BoxCollider2D>().size += new Vector2(0, 7);
+            cam.orthographicSize += 40;
             //cam.fieldOfView += 12;
-        } else
+        }
+        else if (playerXP < Level2XP)
         {
             stage = PlayerStage.stage1;
         }
@@ -192,6 +210,10 @@ public class GameManager : MonoBehaviour
     {
         playerHP -= hp;
         healthText.text = "Health: " + playerHP;
+
+        player.GetComponent<PlayerScript>().TakeDamage();
+
+        soundManager.GetComponent<MusicScript>().DamageSFX();
 
         if (playerHP <= 0)
         {
@@ -229,6 +251,8 @@ public class GameManager : MonoBehaviour
     {
         state = GameState.Paused;
 
+        soundManager.GetComponent<MusicScript>().PauseAdjust();
+
         pausedCanvas.SetActive(true);
         gameOverCanvas.SetActive(false);
         playingCanvas.SetActive(false);
@@ -240,11 +264,42 @@ public class GameManager : MonoBehaviour
     {
         state = GameState.Playing;
 
+        soundManager.GetComponent<MusicScript>().UnpauseAdjust();
+
         pausedCanvas.SetActive(false);
         gameOverCanvas.SetActive(false);
         playingCanvas.SetActive(true);
         mainMenuCanvas.SetActive(false);
         SettingsCanvas.SetActive(false);
+    }
+
+    public void EnableSettings()
+    {
+        pausedCanvas.SetActive(false);
+        gameOverCanvas.SetActive(false);
+        playingCanvas.SetActive(false);
+        SettingsCanvas.SetActive(true);
+        mainMenuCanvas.SetActive(false);
+    }
+
+    public void SaveSettings()
+    {
+        if (state == GameState.MainMenu)
+        {
+            pausedCanvas.SetActive(false);
+            gameOverCanvas.SetActive(false);
+            playingCanvas.SetActive(false);
+            SettingsCanvas.SetActive(false);
+            mainMenuCanvas.SetActive(true);
+        }
+        else
+        {
+            pausedCanvas.SetActive(true);
+            gameOverCanvas.SetActive(false);
+            playingCanvas.SetActive(false);
+            SettingsCanvas.SetActive(false);
+            mainMenuCanvas.SetActive(false);
+        }
     }
 
     public bool CanMove()
