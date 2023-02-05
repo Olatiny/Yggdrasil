@@ -71,33 +71,33 @@ public class PlayerScript : MonoBehaviour
 
     public void TakeDamage()
     {
-        //if (moveDirection.y > 0) 
-        //{
-        //    GetComponent<Animator>().Play("smallDamageUp");
-        //}
-        //else if (moveDirection.x < 0)
-        //{
-        //    GetComponent<Animator>().Play("smallDamageLeft");
-        //}
-        //else if (moveDirection.x > 0)
-        //{
-        //    GetComponent<Animator>().Play("smallDamageRight");
-        //}
-        //else
-        //{
-        //    GetComponent<Animator>().Play("smallTakeDamage");
-        //}
-        StartCoroutine(TakeDamageRoutine());
+        if (moveDirection.y > 0)
+        {
+            GetComponent<Animator>().Play("smallDamageUp");
+        }
+        else if (moveDirection.x < 0)
+        {
+            GetComponent<Animator>().Play("smallDamageLeft");
+        }
+        else if (moveDirection.x > 0)
+        {
+            GetComponent<Animator>().Play("smallDamageRight");
+        }
+        else
+        {
+            GetComponent<Animator>().Play("smallTakeDamage");
+        }
+        //StartCoroutine(TakeDamageRoutine());
     }
 
-    IEnumerator TakeDamageRoutine()
-    {
-        GetComponent<SpriteRenderer>().color = new Color(1, 0.5f, 0.5f);
+    //IEnumerator TakeDamageRoutine()
+    //{
+    //    GetComponent<SpriteRenderer>().color = new Color(1, 0.5f, 0.5f);
 
-        yield return new WaitForSeconds(1);
+    //    yield return new WaitForSeconds(1);
 
-        GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
-    }
+    //    GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+    //}
 
     private void FixedUpdate()
     {

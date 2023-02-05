@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour
 
         foreach (Transform spawnPoint in allBigSpawns)
         {
-            Debug.Log("Big: " + spawnPoint.position);
+            //Debug.Log("Big: " + spawnPoint.position);
         }
 
         foreach (Transform spawnPoint in allLittleSpawns)
@@ -123,6 +123,7 @@ public class GameManager : MonoBehaviour
             cam = Camera.main;
             healthText.text = "Health: " + playerHP;
             cam.orthographicSize = 30;
+            Physics2D.IgnoreLayerCollision(0, 9);
 
             initiateLevel();
 
