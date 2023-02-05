@@ -16,6 +16,8 @@ public class BushmanScript : MonoBehaviour
     private bool canAttack = true;
     private Vector2 target;
     private GameManager manager;
+    private float bushmanHP = 3;
+    private bool pickNewDirection = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,12 +29,14 @@ public class BushmanScript : MonoBehaviour
     {
         
     }
+
     private void Awake()
     {
         manager = GameManager.instance;
         player = GameObject.FindGameObjectWithTag("Player");
         newDirection();
     }
+
     private void FixedUpdate()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -48,26 +52,66 @@ public class BushmanScript : MonoBehaviour
             }
         } else {
             transform.position = Vector2.MoveTowards(transform.position, target, moveSpeed * Time.fixedDeltaTime);
-            if (Vector2.Distance(transform.position, target) < range)
+            if (pickNewDirection/*Vector2.Distance(transform.position, target) < range*/)
             {
                 newDirection();
+                StartCoroutine(NewDirectionTimeout());
             }
         }
     }
+
     private void newDirection()
     {
-        target = new Vector2(Random.Range(-movement, movement), Random.Range(-movement, movement));
+        target = new Vector2(Random.Range(transform.position.x - movement, transform.position.x + movement), Random.Range(transform.position.y -movement, transform.position.y + movement));
     }
+
     private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.CompareTag("Player"))
         {
             manager.loseHP(1);
         }
     }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            //Debug.Log("hit wall");
+            newDirection();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("PlayerAttack"))
+        {
+            bushmanHP--;
+
+            if (bushmanHP <= 0)
+            {
+                GameManager.instance.addXP(1);
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    IEnumerator NewDirectionTimeout()
+    {
+        pickNewDirection = false;
+
+        yield return new WaitForSeconds(2);
+
+        target = transform.position;
+
+        yield return new WaitForSeconds(1);
+
+        pickNewDirection = true;
+    }
+
     IEnumerator Spawn()
     {
         canAttack = false;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2.5f);
         canAttack = true;
     }
 
