@@ -165,12 +165,12 @@ public class GameManager : MonoBehaviour
 
         if (playerXP >= Level3XP)
         {
-            stage = PlayerStage.stage3;
+            //stage = PlayerStage.stage3;
         } else if (playerXP >= Level2XP)
         {
-            stage = PlayerStage.stage2;
-            player.GetComponent<Animator>().Play("BecomeBig");
-            cam.orthographicSize += 12;
+            stage = PlayerStage.stage3;
+            player.GetComponent<Animator>().Play("BecomeBigger");
+            cam.orthographicSize += 100;
             //cam.fieldOfView += 12;
         } else
         {
