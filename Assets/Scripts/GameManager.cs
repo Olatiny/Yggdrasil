@@ -89,6 +89,8 @@ public class GameManager : MonoBehaviour
         foreach (Transform spawnPoint in allLittleSpawns)
         {
             //Debug.Log("Small: " + spawnPoint.position);
+            if (spawnPoint.position.x == 0 && spawnPoint.position.y == 0) continue;
+
             Instantiate(smallEnemyPrefab, spawnPoint.position, spawnPoint.rotation);
         }
 
@@ -120,6 +122,7 @@ public class GameManager : MonoBehaviour
             player = GameObject.FindGameObjectWithTag("Player");
             cam = Camera.main;
             healthText.text = "Health: " + playerHP;
+            cam.orthographicSize = 30;
 
             initiateLevel();
 
@@ -167,16 +170,30 @@ public class GameManager : MonoBehaviour
     {
         playerXP += xp;
 
-        if (playerXP >= Level3XP)
-        {
-            //stage = PlayerStage.stage3;
-        } else if (playerXP >= Level2XP)
+        //if (playerXP >= Level3XP)
+        //{
+        //    //stage = PlayerStage.stage3;
+        //}
+        if (playerXP >= Level2XP && stage != PlayerStage.stage3)
         {
             stage = PlayerStage.stage3;
             player.GetComponent<Animator>().Play("BecomeBigger");
-            cam.orthographicSize += 100;
+
+            Physics2D.IgnoreLayerCollision(0, 3);
+
+            //GameObject[] objs = GameObject.FindGameObjectsWithTag("Bushman");
+
+            //foreach (GameObject o in objs)
+            //{
+            //    Physics2D.IgnoreCollision(o.GetComponent<CircleCollider2D>(), player.GetComponent<BoxCollider2D>());
+            //}
+
+            player.GetComponent<BoxCollider2D>().offset += new Vector2(0, -2);
+            player.GetComponent<BoxCollider2D>().size += new Vector2(0, 7);
+            cam.orthographicSize += 40;
             //cam.fieldOfView += 12;
-        } else
+        }
+        else if (playerXP < Level2XP)
         {
             stage = PlayerStage.stage1;
         }
@@ -192,6 +209,8 @@ public class GameManager : MonoBehaviour
     {
         playerHP -= hp;
         healthText.text = "Health: " + playerHP;
+
+        player.GetComponent<PlayerScript>().TakeDamage();
 
         if (playerHP <= 0)
         {

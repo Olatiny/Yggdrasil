@@ -69,6 +69,36 @@ public class PlayerScript : MonoBehaviour
         if (moveDirection != Vector2.zero) lastMoveDirection = moveDirection;
     }
 
+    public void TakeDamage()
+    {
+        //if (moveDirection.y > 0) 
+        //{
+        //    GetComponent<Animator>().Play("smallDamageUp");
+        //}
+        //else if (moveDirection.x < 0)
+        //{
+        //    GetComponent<Animator>().Play("smallDamageLeft");
+        //}
+        //else if (moveDirection.x > 0)
+        //{
+        //    GetComponent<Animator>().Play("smallDamageRight");
+        //}
+        //else
+        //{
+        //    GetComponent<Animator>().Play("smallTakeDamage");
+        //}
+        StartCoroutine(TakeDamageRoutine());
+    }
+
+    IEnumerator TakeDamageRoutine()
+    {
+        GetComponent<SpriteRenderer>().color = new Color(1, 0.5f, 0.5f);
+
+        yield return new WaitForSeconds(1);
+
+        GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+    }
+
     private void FixedUpdate()
     {
         if (!GameManager.instance.CanMove()) return;
@@ -76,7 +106,7 @@ public class PlayerScript : MonoBehaviour
         switch (GameManager.instance.stage)
         {
             case GameManager.PlayerStage.stage1:
-                rigidBody.velocity = new Vector2(moveDirection.x * moveSpeed * Time.deltaTime, moveDirection.y * moveSpeed * Time.deltaTime);
+                rigidBody.velocity = new Vector2(moveDirection.x * moveSpeed * Time.deltaTime * 5, moveDirection.y * moveSpeed * Time.deltaTime * 5);
                 break;
             case GameManager.PlayerStage.stage2:
             case GameManager.PlayerStage.stage3:
@@ -88,52 +118,59 @@ public class PlayerScript : MonoBehaviour
         
         if (GameManager.instance.stage == GameManager.PlayerStage.stage1)
         {
-            if (rigidBody.velocity != Vector2.zero && !attacking)
-            {
-                if (moveDirection.y > 0)
-                {
-                    GetComponent<Animator>().Play("smallWalkUp");
-                }
-                else if (moveDirection.x < 0)
-                {
-                    GetComponent<Animator>().Play("smallWalkLeft");
-                }
-                else if (moveDirection.x > 0)
-                {
-                    GetComponent<Animator>().Play("smallWalkRight");
-                }
-                else
-                {
-                    GetComponent<Animator>().Play("smallWalkDown");
-                }
-            }
-            else if (!attacking)
-            {
-                if (lastMoveDirection.y > 0)
-                {
-                    GetComponent<Animator>().Play("smallStillUp");
-                }
-                else if (lastMoveDirection.x < 0)
-                {
-                    GetComponent<Animator>().Play("smallStillLeft");
-                }
-                else if (lastMoveDirection.x > 0)
-                {
-                    GetComponent<Animator>().Play("smallStillRight");
-                }
-                else
-                {
-                    GetComponent<Animator>().Play("smallStillDown");
-                }
-            }
+            AnimationHelper("small");
         }
         else if (GameManager.instance.stage == GameManager.PlayerStage.stage2)
         {
             // Stage 2 animations
+            AnimationHelper("big");
         }
         else if (GameManager.instance.stage == GameManager.PlayerStage.stage3)
         {
             // Stage 3 animations
+            AnimationHelper("big");
+        }
+    }
+
+    void AnimationHelper(string size)
+    {
+        if (rigidBody.velocity != Vector2.zero && !attacking)
+        {
+            if (moveDirection.y > 0)
+            {
+                GetComponent<Animator>().Play(size +"WalkUp");
+            }
+            else if (moveDirection.x < 0)
+            {
+                GetComponent<Animator>().Play(size + "WalkLeft");
+            }
+            else if (moveDirection.x > 0)
+            {
+                GetComponent<Animator>().Play(size + "WalkRight");
+            }
+            else
+            {
+                GetComponent<Animator>().Play(size + "WalkDown");
+            }
+        }
+        else if (!attacking)
+        {
+            if (lastMoveDirection.y > 0)
+            {
+                GetComponent<Animator>().Play(size + "StillUp");
+            }
+            else if (lastMoveDirection.x < 0)
+            {
+                GetComponent<Animator>().Play(size + "StillLeft");
+            }
+            else if (lastMoveDirection.x > 0)
+            {
+                GetComponent<Animator>().Play(size + "StillRight");
+            }
+            else
+            {
+                GetComponent<Animator>().Play(size + "StillDown");
+            }
         }
     }
 
@@ -222,6 +259,7 @@ public class PlayerScript : MonoBehaviour
 
         if (rotation > 0 - 45 && rotation < 0 + 45)
         {
+            GetComponent<Animator>().Play("bigAttackUp");
             BigAttackUp.SetActive(true);
             yield return new WaitForSeconds(0.5f);
             BigAttackUp.SetActive(false);
@@ -230,6 +268,7 @@ public class PlayerScript : MonoBehaviour
 
         if (rotation > 90 - 45 && rotation < 90 + 45)
         {
+            GetComponent<Animator>().Play("bigAttackLeft");
             BigAttackLeft.SetActive(true);
             yield return new WaitForSeconds(0.5f);
             BigAttackLeft.SetActive(false);
@@ -238,6 +277,7 @@ public class PlayerScript : MonoBehaviour
 
         if (rotation > 180 - 45 && rotation < 180 + 45)
         {
+            GetComponent<Animator>().Play("bigAttackDown");
             BigAttackDown.SetActive(true);
             yield return new WaitForSeconds(0.5f);
             BigAttackDown.SetActive(false);
@@ -246,6 +286,7 @@ public class PlayerScript : MonoBehaviour
 
         if (rotation > 270 - 45 && rotation < 270 + 45)
         {
+            GetComponent<Animator>().Play("bigAttackRight");
             BigAttackRight.SetActive(true);
             yield return new WaitForSeconds(0.5f);
             BigAttackRight.SetActive(false);

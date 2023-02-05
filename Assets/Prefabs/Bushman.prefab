@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 7375832883900980817}
   - component: {fileID: 7375832883900980816}
   - component: {fileID: 1311000551759057071}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Bushman
-  m_TagString: Untagged
+  m_TagString: Bushman
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 7375832883900980819}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.2, y: -1.12, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -118,9 +118,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 10
   range: 0.5
-  movement: 40
+  movement: 4
   eyesightMin: 20
-  eyesightMax: 4
+  eyesightMax: 30
   thornClump: {fileID: 2735328860048021029, guid: 349cac1a872a496479c826aca55de686, type: 3}
 --- !u!50 &7375832883900980816
 Rigidbody2D:
@@ -135,8 +135,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0
+  m_LinearDrag: 1000
+  m_AngularDrag: 1000
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
