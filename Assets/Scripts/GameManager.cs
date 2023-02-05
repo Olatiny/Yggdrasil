@@ -105,7 +105,7 @@ public class GameManager : MonoBehaviour
     {
         if (instance != this) return;
 
-        if (scene.name == "ThomasTestScene")
+        if (scene.name == "ThomasTestScene" || scene.name == "HaleyTest")
         {
             playerHP = 3;
             playerXP = 0;

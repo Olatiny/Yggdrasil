@@ -66,6 +66,18 @@ public class PlayerScript : MonoBehaviour
         if (!GameManager.instance.CanMove()) return;
 
         rigidBody.velocity = new Vector2(moveDirection.x * moveSpeed * Time.deltaTime * ((int)GameManager.instance.stage + 1), moveDirection.y * moveSpeed * Time.deltaTime * ((int)GameManager.instance.stage + 1));
+    
+        if (rigidBody.velocity != Vector2.zero)
+        {
+            if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(gameObject.layer).IsName("smallWalkingRight"))
+            {
+                GetComponent<Animator>().Play("smallWalkingRight");
+            }
+            else
+            {
+                GetComponent<Animator>().Play("smallStillRight");
+            }
+        }
     }
 
     private void Attack(InputAction.CallbackContext context)
