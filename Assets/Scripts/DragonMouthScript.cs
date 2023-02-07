@@ -34,7 +34,7 @@ public class DragonMouthScript : MonoBehaviour
             if (fireballs % 15 == 0) {
                 StartCoroutine(StopSpawning());
             }
-        } else if (stop && !wave && Vector3.Angle(player.transform.position - transform.parent.position, -transform.up) < 2.5f) {
+        } else if (stop && !wave && Vector3.Angle(player.transform.position - transform.position, -transform.up) < 2.5f) {
             Debug.Log("test");
             StartCoroutine(WaveSpawning());
         }
