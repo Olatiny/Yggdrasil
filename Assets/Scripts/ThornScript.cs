@@ -19,7 +19,7 @@ public class ThornScript : MonoBehaviour
     }
     IEnumerator thornDeath()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2.5f);
         Destroy(gameObject);
     }
     // Update is called once per frame

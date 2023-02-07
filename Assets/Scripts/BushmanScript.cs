@@ -34,6 +34,8 @@ public class BushmanScript : MonoBehaviour
     private void Awake()
     {
         manager = GameManager.instance;
+        float rng = Random.Range(0.5f, 1.5f);
+        gameObject.transform.localScale *= rng;
         player = GameObject.FindGameObjectWithTag("Player");
         newDirection();
     }
